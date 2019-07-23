@@ -13,36 +13,6 @@ class LaserBeeUSB extends JFrame implements JSSCPort.RXEvent {
   private int           peakPower;
   private StringBuilder buf = new StringBuilder();
 
-  class PopClickListener extends MouseAdapter {
-    private Readout source;
-
-    private PopClickListener (Readout source) {
-      this.source = source;
-    }
-
-    public void mousePressed (MouseEvent e) {
-      if (e.isPopupTrigger())
-        doPop(e);
-    }
-
-    public void mouseReleased (MouseEvent e) {
-      if (e.isPopupTrigger())
-        doPop(e);
-    }
-
-    private void doPop (MouseEvent e) {
-      JPopupMenu menu = new JPopupMenu();
-      JMenuItem menuItem = new JMenuItem("Copy Value");
-      menu.add(menuItem);
-      menu.show(e.getComponent(), e.getX(), e.getY());
-      menuItem.addActionListener( ev -> {
-        StringSelection stringSelection = new StringSelection(source.power.getText());
-        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-        clipboard.setContents(stringSelection, null);
-      });
-    }
-  }
-
   class Readout extends JPanel {
     JTextField power = new JTextField("- -");
 
@@ -60,7 +30,22 @@ class LaserBeeUSB extends JFrame implements JSSCPort.RXEvent {
       power.setFont(new Font("Helvetica", Font.BOLD, 110));
       power.setHorizontalAlignment(SwingConstants.RIGHT);
       power.setPreferredSize(new Dimension(300, 120));
-      power.addMouseListener(new PopClickListener(this));
+      power.addMouseListener(new MouseAdapter() {
+        public void mousePressed (MouseEvent ev1) {
+          if (ev1.isPopupTrigger()) {
+            JPopupMenu menu = new JPopupMenu();
+            JMenuItem menuItem = new JMenuItem("Copy Value");
+            menu.add(menuItem);
+            menu.show(ev1.getComponent(), ev1.getX(), ev1.getY());
+            menuItem.addActionListener( ev2 -> {
+              // Copy value to clipboard
+              StringSelection stringSelection = new StringSelection(power.getText());
+              Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+              clipboard.setContents(stringSelection, null);
+            });
+          }
+        }
+      });
       add(power, BorderLayout.CENTER);
     }
 
