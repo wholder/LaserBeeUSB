@@ -2,10 +2,9 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.*;
 import java.util.prefs.Preferences;
 
 class LaserBeeUSB extends JFrame implements JSSCPort.RXEvent {
@@ -14,8 +13,38 @@ class LaserBeeUSB extends JFrame implements JSSCPort.RXEvent {
   private int           peakPower;
   private StringBuilder buf = new StringBuilder();
 
+  class PopClickListener extends MouseAdapter {
+    private Readout source;
+
+    private PopClickListener (Readout source) {
+      this.source = source;
+    }
+
+    public void mousePressed (MouseEvent e) {
+      if (e.isPopupTrigger())
+        doPop(e);
+    }
+
+    public void mouseReleased (MouseEvent e) {
+      if (e.isPopupTrigger())
+        doPop(e);
+    }
+
+    private void doPop (MouseEvent e) {
+      JPopupMenu menu = new JPopupMenu();
+      JMenuItem menuItem = new JMenuItem("Copy Value");
+      menu.add(menuItem);
+      menu.show(e.getComponent(), e.getX(), e.getY());
+      menuItem.addActionListener( ev -> {
+        StringSelection stringSelection = new StringSelection(source.power.getText());
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        clipboard.setContents(stringSelection, null);
+      });
+    }
+  }
+
   class Readout extends JPanel {
-    JLabel power = new JLabel("- -");
+    JTextField power = new JTextField("- -");
 
     Readout (String label) {
       super(new BorderLayout());
@@ -25,11 +54,13 @@ class LaserBeeUSB extends JFrame implements JSSCPort.RXEvent {
       inside.setTitleFont(new Font("Helvetica", Font.PLAIN, 18));
       Border border = BorderFactory.createCompoundBorder(outside, inside);
       setBorder(border);
+      power.setEditable(false);
       power.setBackground(Color.white);
       power.setBorder(BorderFactory.createEmptyBorder(18, 8, 8, 8));
       power.setFont(new Font("Helvetica", Font.BOLD, 110));
       power.setHorizontalAlignment(SwingConstants.RIGHT);
       power.setPreferredSize(new Dimension(300, 120));
+      power.addMouseListener(new PopClickListener(this));
       add(power, BorderLayout.CENTER);
     }
 
@@ -48,9 +79,7 @@ class LaserBeeUSB extends JFrame implements JSSCPort.RXEvent {
     add(panel, BorderLayout.CENTER);
     setBackground(Color.white);
     JButton reset = new JButton("RESET PEAK READING");
-    reset.addActionListener(ev -> {
-      peakPower = 0;
-    });
+    reset.addActionListener(ev -> peakPower = 0);
     add(reset,BorderLayout.SOUTH);
     // Add menu for Port selection
     JMenuBar menuBar = new JMenuBar();

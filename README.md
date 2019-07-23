@@ -6,7 +6,7 @@ LaserBeeUSB provides a simple GUI interface for reading current and peak power l
 
 ### Usage
 
-You'll need to use the "Port" menu to select the LaserBeeUSB the first time you run this app, but this selection will be remembered for future uses. 
+You'll need to use the "Port" menu to select the LaserBeeUSB the first time you run this app, but this selection will be remembered for future uses.  Click the "RESET PEAK READING" button to reset the last peak reading.  Right click inside one of the two power readouts and select "Copy Value" to copy the value to the clipboard.
 
 ### Requirements
 Java 8 JDK, or later must be installed in order to compile the code.  There is also a [**Runnable JAR file**](https://github.com/wholder/LaserBeeUSB/blob/master/out/artifacts/LaserBeeUSB_jar) included in the checked in code that you can download.   On a Mac, just double click the **`LaserBeeUSB.jar`** file and it should start.  However, you'll probably have to right click and select "Open" the  first time you run LaserBeeUSB due to new Mac OS X security checks.  You should also be able to run the JAR file on Windows or Linux systems, but you'll need to have a Java 8 JRE, or later installed and follow the appropriate process for each needed to run an executable JAR file.
