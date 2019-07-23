@@ -2,7 +2,7 @@
 
 <p align="center"><img src="https://github.com/wholder/LaserBeeUSB/blob/master/images/LaserBeeUSB%20Screenshot.png"></p>
 
-LaserBeeUSB provides a simple GUI interface for reading current and peak power levels from a "LaserBee™ USB 3.7 Watt Power Meter" from [J.BAUER Electronics](https://www.laserbeelpm.com/laserbee-3.7w-usb.html).
+LaserBeeUSB provides a simple GUI interface for reading current and peak power levels from a "[LaserBee™ USB 3.7 Watt Power Meter](https://www.laserbeelpm.com/laserbee-3.7w-usb.html)" from [J.BAUER Electronics](https://www.laserbeelpm.com).
 
 ### Usage
 
