@@ -108,6 +108,7 @@ class LaserBeeUSB extends JFrame implements JSSCPort.RXEvent {
       String value = buf.toString().trim();
       String[] parts = value.split(",");
       if (parts.length == 2 && parts[0].equals(parts[1])) {
+        // Note: Sample rate is approx 16 readings/second
         reading.setValue(parts[0]);
         reading.repaint();
         int power = Integer.parseInt(parts[0]);
