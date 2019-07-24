@@ -7,6 +7,15 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.event.*;
 import java.util.prefs.Preferences;
 
+/*
+ * LaserBeeUSB provides a simple GUI interface for reading current and peak power levels from a
+ * "[LaserBee™ USB 3.7 Watt Power Meter](https://www.laserbeelpm.com/laserbee-3.7w-usb.html)"
+ * from [J.BAUER Electronics](https://www.laserbeelpm.com)
+ *
+ *  Author: Wayne Holder, 2019
+ *  License: MIT (https://opensource.org/licenses/MIT)
+ */
+
 class LaserBeeUSB extends JFrame implements JSSCPort.RXEvent {
   private Preferences   prefs = Preferences.userRoot().node(this.getClass().getName());
   private Readout       reading, peak;
